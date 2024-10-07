@@ -13,6 +13,18 @@ input text files, apply custom text normalization, and write the normalized text
     - Special characters and slashes (e.g., `/example/`).
 - Custom punctuation handling (e.g., proper spacing around punctuation like commas and parentheses).
 
+## Important Note
+
+When using asterisks (*) or underscores (_) for emphasis or special formatting (e.g., *bold*, _italic_), do not place
+them immediately before punctuation marks like colons, commas, or periods. For example, the following is incorrect:
+
+- Incorrect: `_word:_` or `**word:**` or `*word:*`
+
+In these cases, the punctuation should come after the closing asterisk or underscore, with no punctuation immediately
+following the special formatting. The correct versions are:
+
+- Correct: `_word_:` or `**word**:` or `*word*:`
+
 ## Requirements
 
 - Python 3.x

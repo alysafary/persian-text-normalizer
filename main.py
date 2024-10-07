@@ -15,7 +15,8 @@ class TextNormalizer:
             unicodes_replacement=False,
             persian_numbers=False,
             remove_diacritics=False,
-            remove_specials_chars=False
+            remove_specials_chars=False,
+            decrease_repeated_chars=False,
         )
 
     def read_text_from_file(self):
@@ -39,7 +40,18 @@ class TextNormalizer:
         if not text:
             return
 
-        skip_patterns = re.compile(r'(<[^>]+>|[*]+[^*]+[*]+|/[^/]+/|`[^`]+`|[{}[\]]|%)')
+        skip_patterns = re.compile(
+            r'('
+            r'</?[a-zA-Z][^>]*>|'  # All HTML-like tags, including closing tags
+            r'[*]+[^*]+[*]+|'  # Bold and italic (Markdown)
+            r'/[^/]+/|'  # Slashes
+            r'`[^`]+`|'  # Inline code
+            r'[{}[\]]|'  # Brackets
+            r'%|'  # Percentage
+            r'^\s*!.*$'  # Lines starting with !
+            r')',
+            re.MULTILINE
+        )
         parts = skip_patterns.split(text)
         normalized_parts = [
             self.normalizer.normalize(part) if not skip_patterns.match(part) else part
